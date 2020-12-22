@@ -1,64 +1,53 @@
-import sys
-from colorama import init
-from termcolor import cprint
-from pyfiglet import figlet_format
-import os
+from tkinter import *
 import tkinter as tk
-from tkinter import ttk
-import time
 from pypresence import Presence
+import time
 from tkinter import messagebox as mbox
+from tkinter import ttk
+from tkinter.filedialog import asksaveasfile
 
-# > Imports terminal actions
-init(strip=not sys.stdout.isatty())
-cprint(figlet_format("Unix", font="doh"), "white")
-time.sleep(1)
+# > Functions
+def SaveFileAs():
+	files = [('All Files', '*.*'),
+			 ('Text Files', '*.txt')]
+	file = asksaveasfile(filetypes = files, defaultextension = files)
+	if file is None:
+		return
+	textsave = str(text.get(1.0,END))
+	file.write(textsave)
 
-"""Notas:
-si ingreso informacion mediante un input, no me sirve, ya que estaria funcionando por terminal y no por
-ventana.
-
-Sugerencias pronoob: confirmar las dos informaciones a la vez ya que haria el programa mas eficientes:
-implementacion:
-	crear dos ventanas insert apartes y luego almacenarlas en una variable, luego llamarla en la funcion
-	que hace registros de pruebas en la terminal"""
-
-
-# > Initial options windows
-starttime = time.time()
-InitWindows = tk.Tk()
-InitWindows.title("Unix Logs Register")                            #Window Title
-InitWindows.geometry("720x660")                                    #Window Geometry
-InitWindows.configure(bg="LightYellow4")                           #Window background color
-# > Config information Entry
-descriptionLog = ttk.Entry(InitWindows)                            #Requesting information about the description
-descriptionLog.place(x=100, y=94)                                  #Geometry of the description request menu (no funciona, aunque por alguna razon necesita de esto para mostrarse en ventana)
-titleLog = ttk.Entry(InitWindows)                                  #Requesting information abot the title
-titleLog.place(x=50, y=30)                                         #Geometry of the title requesting menu  (no funciona, aunque por alguna razon necesita de esto para mostrarse en ventana)
-information = titleLog, descriptionLog                             #storing the information base in a variable
-# > Information test 
-infoConfirm= ttk.Button(InitWindows, 
-	text="Confirmar", command=lambda:print(information.get()))
-infoConfirm.place(x=60, y=80)
-
-#pypresence
-client = "788978768965271562"
-def rpc():
-	richpresence = Presence(client)
-	richpresence.connect()
-	mbox.showinfo("Discord RPC iniciado", "El discord rich presence se inicio de manera correcta")
+def DiscordRPC():
+	client_id = "790768262883442698"
+	rpc = Presence(client_id)
+	rpc.connect()
+	mbox.showinfo("QuarentineDev Text Editor | Beta", "Discord Rich Presence fue activado")
 	while True:
-		richpresence.update(start=int(starttime), details="QuarentineDev Test Project", state="Unix log v2")
+		rpc.update(start=int(starttime), details="Working", state="Testing a new project | Unix")
 		time.sleep(1)
-		InitWindows.update()
-initRPC = tk.Button(text="Iniciar RPC",font=("",30),width=3,height=1,command=rpc)
-initRPC.pack()
+		window.update()
+		print("Discord RPC Funcionando")
 
+# > Windows Properties
+starttime = time.time()
+window = tk.Tk()
+window.title("QuarentineDev Text Editor | Beta")
+window.geometry("642x590")
+text = Text(window)
+text.pack()
+window.resizable(width=False, height=False)
+menubar = Menu(window)
 
-"""print(richpresence.update(state="Unix Log v2", details="QuarentineDev Test project"))
-while True:
-	time.sleep(15)"""
+# > Windows Properties > Option Menu Bar
+OptionMenu = Menu(menubar, tearoff=0)
+OptionMenu.add_command(label="Discord RPC",command=DiscordRPC)
+OptionMenu.add_separator()
+OptionMenu.add_command(label="Exit",command=window.quit)
+menubar.add_cascade(label="Options", menu=OptionMenu)
 
+# > Windows Properties > File Menu Bar
+filemenu = Menu(menubar, tearoff=0)
+filemenu.add_command(label="Save File As", command=lambda: SaveFileAs())
+menubar.add_cascade(label="File", menu=filemenu)
+window.config(menu=menubar)
 
-
-InitWindows.mainloop()
+window.mainloop()
