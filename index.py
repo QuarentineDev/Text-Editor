@@ -6,6 +6,7 @@ from tkinter import messagebox as mbox
 from tkinter import ttk
 from tkinter.filedialog import asksaveasfile
 from tkinter.filedialog import askopenfilename
+import os
 
 # > Functions
 def SaveFileAs():
@@ -17,8 +18,22 @@ def SaveFileAs():
 	textsave = str(text.get(1.0,END))
 	file.write(textsave)
 
+def writeToFile(file_name):
+	try:
+		content = text.get(1.0, 'end')
+		with open(file_name, 'w') as fileFin:
+			fileFin.write(content)
+	except IOError:
+		pass
+	
+
 def SaveFile():
-	mbox.showinfo("QuarentineDev Text Editor | Beta", "Error! Funcion aun no implementada")
+	global file_name
+	if not file_name:
+		SaveFileAs()
+	else:
+		writeToFile(file_name)
+		return "break"
 
 def OpenFile():
 	files = [('All Files', '*.*'),
@@ -58,8 +73,8 @@ OptionMenu.add_command(label="Discord RPC",command=DiscordRPC)
 OptionMenu.add_separator()
 OptionMenu.add_command(label="Exit",command=window.destroy)
 menubar.add_cascade(label="Options", menu=OptionMenu)
-# > Windows Properties > File Menu Bar
 
+# > Windows Properties > File Menu Bar
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="Save File As", command=lambda: SaveFileAs())
 filemenu.add_command(label="Save File", command=lambda: SaveFile())
