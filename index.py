@@ -5,6 +5,7 @@ import time
 from tkinter import messagebox as mbox
 from tkinter import ttk
 from tkinter.filedialog import asksaveasfile
+from tkinter.filedialog import askopenfilename
 
 # > Functions
 def SaveFileAs():
@@ -15,6 +16,20 @@ def SaveFileAs():
 		return
 	textsave = str(text.get(1.0,END))
 	file.write(textsave)
+
+def SaveFile():
+	mbox.showinfo("QuarentineDev Text Editor | Beta", "Error! Funcion aun no implementada")
+
+def OpenFile():
+	files = [('All Files', '*.*'),
+			 ('Text Files', '*.txt')]
+	selectOpenFile = askopenfilename(defaultextension=files, filetypes=files)
+	if selectOpenFile:
+		global file_name
+		file_name = selectOpenFile
+		text.delete(1.0, END)
+		with open(selectOpenFile) as namefile:
+			text.insert(1.0, namefile.read())
 
 def DiscordRPC():
 	client_id = "790768262883442698"
@@ -41,12 +56,14 @@ menubar = Menu(window)
 OptionMenu = Menu(menubar, tearoff=0)
 OptionMenu.add_command(label="Discord RPC",command=DiscordRPC)
 OptionMenu.add_separator()
-OptionMenu.add_command(label="Exit",command=window.quit)
+OptionMenu.add_command(label="Exit",command=window.destroy)
 menubar.add_cascade(label="Options", menu=OptionMenu)
-
 # > Windows Properties > File Menu Bar
+
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="Save File As", command=lambda: SaveFileAs())
+filemenu.add_command(label="Save File", command=lambda: SaveFile())
+filemenu.add_command(label="Open File", command=lambda: OpenFile())
 menubar.add_cascade(label="File", menu=filemenu)
 window.config(menu=menubar)
 
