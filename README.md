@@ -20,7 +20,7 @@ si una de estas librerías no esta instalada dentro de tu entorno de desarrollo 
 Puede descargar el 'programa con el ejecutable EXE en la pagina oficial'.
 
 Tambien puede crear su propio ejecutable con la librería #pyinstaller
-únicamente si no tiene un sistema operativo de windows
+únicamente si no tiene un sistema operativo de windows.
 
 ```
 
