@@ -81,3 +81,42 @@ header ul li a{
 .custom-shape-divider-bottom-1611456303 .shape-fill {
     fill: #000000;
 }
+#parent {
+    height: 40px;
+    white-space: nowrap;
+    overflow: hidden; 
+    font-family: 'Source Code Pro', monospace;  
+    position: relative;
+}
+#parent a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 28px;
+}
+  
+#border {
+    border-bottom: solid 3px rgba(0,255,0,.75);
+    position: absolute;
+    right: -7px;
+    width: 20px;
+}
+  
+#parent {
+    animation: animated-text 2s steps(30,end) 1s 1 normal both
+}
+  
+#border {
+     animation: animated-cursor 600ms steps(30,end) infinite;
+}
+  
+  
+@keyframes animated-text{
+    from{width: 0;}
+    to{width: 480px;}
+}
+  
+  
+@keyframes animated-cursor{
+    from{border-bottom-color: rgba(0,255,0,.75);}
+    to{border-bottom-color: transparent;}
+}
