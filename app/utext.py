@@ -1,7 +1,8 @@
-from tkinter import *
-import tkinter as tk
-from pypresence import Presence
-import time
+# -*- coding: utf-8 -*-
+from tkinter import * 
+import tkinter as tk  
+from pypresence import Presence  
+import time #
 from tkinter import messagebox as mbox
 from tkinter import ttk
 from tkinter.filedialog import asksaveasfile
@@ -11,14 +12,15 @@ import os
 # > Functions
 def SaveFileAs():
 	files = [('All Files', '*.*'),
-			 ('Text Files', '*.txt')]
+			 ('Text Files', '*.txt'),
+			 ('Python Files', '*.py')]
 	file = asksaveasfile(filetypes = files, defaultextension = files)
 	if file is None:
 		return
 	textsave = str(text.get(1.0,END))
 	file.write(textsave)
-	window.title(f"U-Text | v0.1 | {file_name}")
-	rpc.update(start=int(starttime), details="Working", state=f"Editing {file_name} File") #Editing {file_name} File
+	#window.title(f"U-Text | v0.1 | {file_name}")
+	#rpc.update(start=int(starttime), details="Working", state=f"Editing {file_name} File") #Editing {file_name} File
 
 def writeToFile(file_name):
 	try:
@@ -85,22 +87,27 @@ starttime = time.time()
 window = tk.Tk()
 window.title("U-Text | v0.1")
 window.geometry("642x379")
-text = Text(window, wrap=tk.WORD, foreground="White")
+text = Text(window, wrap=tk.NONE, foreground="White")
 text.configure(bg="gray12")
 text.config(insertbackground="White")
 
 # > RPC Properties
-client_id = "790768262883442698"
+client_id = "846755061072920597"
 rpc = Presence(client_id)
 
 #window.resizable(width=False, height=False)
 menubar = Menu(window)
 
-# > Windows Properties > Scrollbar Options
+# > Windows Properties > Scrollbar Options > Y
 scrollY = tk.Scrollbar(window, orient=tk.VERTICAL)
 scrollY.config(command=text.yview)
 text.configure(yscrollcommand=scrollY.set)
 scrollY.pack(side=tk.RIGHT, fill=tk.Y)
+# > Windows Properties > Scrollbar Options > X
+scrollX = tk.Scrollbar(window, orient=tk.HORIZONTAL)
+scrollX.config(command=text.xview)
+text.configure(xscrollcommand=scrollX.set)
+scrollX.pack(side=tk.BOTTOM, fill=tk.X)
 
 # > Windows Properties > Option Menu Bar
 OptionMenu = Menu(menubar, tearoff=0)
@@ -115,7 +122,7 @@ menubar.add_cascade(label="Options", menu=OptionMenu)
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="Save File As", command=lambda: SaveFileAs())
 filemenu.add_command(label="Save File", command=lambda: SaveFile())
-filemenu.add_command(label="Open File", command=lambda: OpenFile())
+filemenu.add_command(label="Open File", command= lambda:  OpenFile())
 filemenu.add_separator()
 filemenu.add_command(label="Help", command=Help)
 #filemenu.add_command(label="Find String", command=find)
